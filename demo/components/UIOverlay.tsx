@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { PRESETS, createDefaultConfig, mergeWallpaperConfig } from '../../src/index.js';
-import type { PresetCustomization, WallpaperConfig } from '../../src/types.js';
+import type { PresetCustomization, WallpaperConfig, WallpaperPerformanceMetrics } from '../../src/types.js';
 
 interface UIOverlayProps {
   config: WallpaperConfig;
   setConfig: Dispatch<SetStateAction<WallpaperConfig>>;
   onSave: () => void;
+  performanceMetrics: WallpaperPerformanceMetrics | null;
 }
 
-const UIOverlay = ({ config, setConfig, onSave }: UIOverlayProps) => {
+const UIOverlay = ({ config, setConfig, onSave, performanceMetrics }: UIOverlayProps) => {
   const [customizeOpen, setCustomizeOpen] = useState(false);
 
   const updateConfig = (key: keyof WallpaperConfig, value: string | number) => {
@@ -107,6 +108,17 @@ const UIOverlay = ({ config, setConfig, onSave }: UIOverlayProps) => {
           <i className="fa-solid fa-download text-lg" />
         </button>
       </div>
+
+      {performanceMetrics ? (
+        <div className="glass pointer-events-none absolute left-6 top-6 z-30 rounded-2xl border border-white/20 p-3 text-[10px] font-mono text-white/80 shadow-2xl">
+          <div>FPS {performanceMetrics.fps.toFixed(1)}</div>
+          <div>Frame {performanceMetrics.averageFrameTime.toFixed(2)}ms</div>
+          <div>Canvas {performanceMetrics.renderWidth}x{performanceMetrics.renderHeight}</div>
+          <div>DPR {performanceMetrics.pixelRatio.toFixed(2)}</div>
+          <div>Preset {performanceMetrics.preset}</div>
+          <div>Context loss {performanceMetrics.contextLossCount}</div>
+        </div>
+      ) : null}
 
       <div className="pointer-events-auto fixed bottom-6 left-1/2 z-30 -translate-x-1/2">
         <div className="scrollbar-hide glass flex max-h-32 max-w-[calc(100vw-3rem)] gap-2 overflow-x-auto rounded-2xl border border-white/20 p-3 shadow-2xl">

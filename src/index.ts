@@ -1,11 +1,15 @@
 export type {
   CreateWallpaperOptions,
+  PerformanceInstrumentation,
   PresetCustomization,
   PresetData,
   PresetType,
+  RenderPolicy,
+  RenderQuality,
   WallpaperConfig,
   WallpaperConfigUpdate,
   WallpaperInstance,
+  WallpaperPerformanceMetrics,
 } from './types.js';
 
 export { INITIAL_CONFIG, PRESETS } from './constants.js';

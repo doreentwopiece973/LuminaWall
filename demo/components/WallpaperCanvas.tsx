@@ -1,13 +1,20 @@
 import { useEffect, useRef } from 'react';
 import { createWallpaper } from '../../src/index.js';
-import type { WallpaperConfig, WallpaperInstance } from '../../src/types.js';
+import type {
+  RenderPolicy,
+  WallpaperConfig,
+  WallpaperInstance,
+  WallpaperPerformanceMetrics,
+} from '../../src/types.js';
 
 interface WallpaperCanvasProps {
   config: WallpaperConfig;
   onCaptureRequest?: (captureFn: () => string) => void;
+  onPerformanceSample?: (metrics: WallpaperPerformanceMetrics) => void;
+  renderPolicy?: RenderPolicy;
 }
 
-const WallpaperCanvas = ({ config, onCaptureRequest }: WallpaperCanvasProps) => {
+const WallpaperCanvas = ({ config, onCaptureRequest, onPerformanceSample, renderPolicy }: WallpaperCanvasProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const instanceRef = useRef<WallpaperInstance | null>(null);
 
@@ -16,7 +23,15 @@ const WallpaperCanvas = ({ config, onCaptureRequest }: WallpaperCanvasProps) => 
       return;
     }
 
-    const instance = createWallpaper(containerRef.current, config);
+    const instance = createWallpaper(containerRef.current, {
+      ...config,
+      renderPolicy,
+      instrumentation: {
+        enabled: true,
+        sampleIntervalMs: 1000,
+        onSample: onPerformanceSample,
+      },
+    });
     instanceRef.current = instance;
     onCaptureRequest?.(() => instance.capture());
 

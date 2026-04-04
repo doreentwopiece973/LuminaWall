@@ -25,13 +25,19 @@ export function LuminaWall({
       return;
     }
 
-    const instance = createWallpaper(containerRef.current, options);
-    instanceRef.current = instance;
+    try {
+      const instance = createWallpaper(containerRef.current, options);
+      instanceRef.current = instance;
 
-    return () => {
-      instance.destroy();
+      return () => {
+        instance.destroy();
+        instanceRef.current = null;
+      };
+    } catch (error) {
+      console.warn('LuminaWall: mount failed. Rendering without wallpaper.', error);
       instanceRef.current = null;
-    };
+      return;
+    }
   }, []);
 
   useEffect(() => {

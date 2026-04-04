@@ -1,6 +1,6 @@
 {
   "name": "luminawall",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "description": "Beautiful, animated WebGL wallpaper engine with 10 shader presets for landing pages and web applications",
   "type": "module",
   "private": false,

@@ -1,3 +1,5 @@
+![LuminaWall preset collage](./images/readme/collage.png)
+
 # LuminaWall
 
 LuminaWall is a WebGL background package for landing pages, app shells, hero sections, and immersive panels. It mounts an animated shader preset into any container element and keeps the canvas pinned to that element's bounds.
@@ -119,6 +121,11 @@ Mounts a wallpaper canvas into `target` and stretches it to fill the element.
 ```ts
 const wallpaper = createWallpaper(targetElement, {
   preset: 'LIQUID_GLASS',
+  renderPolicy: {
+    pauseWhenHidden: true,
+    pauseWhenOffscreen: true,
+    quality: 'high',
+  },
 });
 ```
 
@@ -147,6 +154,8 @@ wallpaper.setConfig((current) => ({
 ```
 
 If `preset` changes, LuminaWall resets to that preset's defaults first and then applies your overrides.
+
+When `preset` changes, LuminaWall now recompiles only that preset's fragment shader and swaps the material. Normal config updates stay on the existing material and only update uniforms.
 
 ### Preset Helpers
 
@@ -201,10 +210,63 @@ interface CreateWallpaperOptions {
   scale?: number;
   contrast?: number;
   customValues?: Record<string, number>;
+  renderPolicy?: {
+    pauseWhenHidden?: boolean;
+    pauseWhenOffscreen?: boolean;
+    quality?: 'high' | 'balanced' | 'performance';
+  };
+  instrumentation?: {
+    enabled?: boolean;
+    sampleIntervalMs?: number;
+    logToConsole?: boolean;
+    onSample?: (metrics: WallpaperPerformanceMetrics) => void;
+  };
 }
 ```
 
 If you only pass `preset`, LuminaWall uses that preset's built-in defaults.
+
+### Render Policy
+
+- `pauseWhenHidden`: pauses rendering when the tab is hidden. Default `true`.
+- `pauseWhenOffscreen`: pauses rendering when the target leaves the viewport. Default `true`.
+- `quality`: opt-in internal pixel ratio tier. Default `high`.
+
+`quality` is intentionally conservative:
+
+- `high`: full default quality
+- `balanced`: moderate pixel-ratio reduction for heavier presets
+- `performance`: stronger pixel-ratio reduction for constrained devices
+
+Preset visuals stay the same by default. Lower quality tiers are explicit tradeoffs for sites that need more headroom on weaker hardware.
+
+### Performance Instrumentation
+
+Instrumentation is optional and intended for local development and profiling.
+
+Reported metrics include:
+
+- FPS
+- average frame time
+- rendered canvas size
+- effective pixel ratio
+- current preset
+- WebGL context loss count
+
+Example:
+
+```ts
+const wallpaper = createWallpaper(target, {
+  preset: 'DEEP_COSMOS',
+  instrumentation: {
+    enabled: true,
+    sampleIntervalMs: 1000,
+    onSample: (metrics) => {
+      console.log(metrics.fps, metrics.averageFrameTime);
+    },
+  },
+});
+```
 
 ### Global Controls
 
@@ -561,6 +623,8 @@ If you need per-preset custom sliders, use each preset's `customizations` metada
 
 LuminaWall relies on WebGL and modern ESM package support. Current Chromium, Firefox, Safari, and Edge versions are the practical target.
 
+LuminaWall now compiles the active preset shader only, rather than shipping one combined fragment shader to every instance. That reduces shader compile pressure and lowers driver risk on weaker or stricter browser environments.
+
 ## Troubleshooting
 
 ### Nothing renders
@@ -568,6 +632,8 @@ LuminaWall relies on WebGL and modern ESM package support. Current Chromium, Fir
 - Confirm the container has a real width and height.
 - Confirm the browser supports WebGL.
 - Check that the container is attached to the DOM before calling `createWallpaper()`.
+- If the browser blocks or disables WebGL, LuminaWall now falls back to a no-op instance so the page keeps rendering without the wallpaper.
+- Use `instrumentation.onSample` during development to identify presets that are unsafe at your target canvas size and device pixel ratio.
 
 ### Background renders but content disappears behind it
 

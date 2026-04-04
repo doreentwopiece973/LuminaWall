@@ -31,8 +31,39 @@ export interface WallpaperConfig {
   customValues?: Record<string, number>;
 }
 
+export type RenderQuality = 'high' | 'balanced' | 'performance';
+
+export interface RenderPolicy {
+  pauseWhenHidden?: boolean;
+  pauseWhenOffscreen?: boolean;
+  quality?: RenderQuality;
+}
+
+export interface PerformanceInstrumentation {
+  enabled?: boolean;
+  sampleIntervalMs?: number;
+  logToConsole?: boolean;
+  onSample?: (metrics: WallpaperPerformanceMetrics) => void;
+}
+
+export interface WallpaperPerformanceMetrics {
+  fps: number;
+  averageFrameTime: number;
+  frameCount: number;
+  contextLossCount: number;
+  isVisible: boolean;
+  isInViewport: boolean;
+  pixelRatio: number;
+  renderWidth: number;
+  renderHeight: number;
+  preset: PresetType;
+  quality: RenderQuality;
+}
+
 export interface CreateWallpaperOptions extends Partial<Omit<WallpaperConfig, 'preset'>> {
   preset: PresetType;
+  renderPolicy?: RenderPolicy;
+  instrumentation?: PerformanceInstrumentation;
 }
 
 export type WallpaperConfigUpdate =
