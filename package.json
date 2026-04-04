@@ -1,0 +1,73 @@
+{
+  "name": "@luminawall/core",
+  "version": "0.1.0-alpha.0",
+  "description": "Beautiful, animated WebGL wallpaper engine with 10 shader presets for landing pages and web applications",
+  "type": "module",
+  "private": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react.js",
+      "types": "./dist/react.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kun101/luminawall"
+  },
+  "keywords": [
+    "wallpaper",
+    "webgl",
+    "shader",
+    "animation",
+    "background",
+    "landing-page",
+    "react",
+    "glsl",
+    "canvas"
+  ],
+  "author": "kun101",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --config demo/vite.config.ts",
+    "build": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.build.json",
+    "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly true",
+    "preview": "vite preview --config demo/vite.config.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "three": "^0.176.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "@vitejs/plugin-react": "^5.0.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
