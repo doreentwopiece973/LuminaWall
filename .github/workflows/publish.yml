@@ -2,31 +2,26 @@ name: Publish to npm
 
 on:
   release:
-    types:
-      - published
+    types: [published]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22.14.0
-          registry-url: https://registry.npmjs.org
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build package
-        run: npm run build
-
-      - name: Publish to npm
-        run: npm publish
+      - run: node -v
+      - run: npm -v
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish
